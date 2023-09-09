@@ -7,6 +7,6 @@ public class CommentRemovedEvent : BaseEvent
     {
     }
     public Guid CommentId { get; set; }
-    public DateTime EditDate { get; set; }
+    public DateTime RemoveDate { get; set; }
 
 }
