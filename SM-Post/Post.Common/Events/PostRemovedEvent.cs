@@ -1,9 +1,9 @@
 ﻿using CQRS.Core.Events;
 
 namespace Post.Common.Events;
-public class PosttRemovedEvent : BaseEvent
+public class PostRemovedEvent : BaseEvent
 {
-    public PosttRemovedEvent() : base(nameof(PosttRemovedEvent))
+    public PostRemovedEvent() : base(nameof(PostRemovedEvent))
     {
     }
 
