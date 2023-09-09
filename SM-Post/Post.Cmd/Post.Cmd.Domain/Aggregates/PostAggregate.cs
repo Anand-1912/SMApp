@@ -107,4 +107,98 @@ public class PostAggregate : AggregateRoot
 
     }
 
+    public void EditComment(Guid commentId, string comment, string username)
+    {
+        if (!_active)
+        {
+            throw new InvalidOperationException("You cannot edit a comment of an inactive post!");
+        }
+
+        if (!_comments.ContainsKey(commentId))
+        {
+            throw new InvalidOperationException("You cannot edit a comment that doesn't exist");
+        }
+
+        if (!_comments[commentId].Item2.Equals(username,StringComparison.CurrentCultureIgnoreCase))
+        {
+            throw new InvalidOperationException("You are not allowed to edit a comment that was made by another user");
+        }
+        if (string.IsNullOrEmpty(comment))
+        {
+            throw new InvalidOperationException($"The value of {nameof(comment)} cannot be null or empty. Please provide a valid {nameof(comment)}");
+        }
+
+        RaiseEvent(new CommentUpdatedEvent()
+        {
+            Id = _id,
+            CommentId = commentId,
+            Comment = comment,
+            UserName = username,
+            EditDate = DateTime.Now
+
+        });
+
+    }
+
+    public void Apply(CommentUpdatedEvent @event)
+    {
+        _id = @event.Id;
+       
+        _comments[@event.CommentId] = new(@event.Comment, @event.UserName);
+
+    }
+
+    public void RemoveComment(Guid commentId, string username)
+    {
+        if (!_active)
+        {
+            throw new InvalidOperationException("You cannot remove a comment of an inactive post!");
+        }
+
+        if (!_comments.ContainsKey(commentId))
+        {
+            throw new InvalidOperationException("You cannot remove a comment that doesn't exist");
+        }
+
+        if (!_comments[commentId].Item2.Equals(username, StringComparison.CurrentCultureIgnoreCase))
+        {
+            throw new InvalidOperationException("You are not allowed to remove a comment that was made by another user");
+        }
+
+        RaiseEvent(new CommentRemovedEvent()
+        {
+            Id = _id,
+            CommentId = commentId,
+            RemoveDate = DateTime.Now
+
+        });
+
+    }
+
+    public void Apply(CommentRemovedEvent @event)
+    {
+        _id = @event.Id;
+        _comments.Remove(@event.CommentId);
+
+    }
+
+    public void DeletePost(string username)
+    {
+        if (!_active)
+        {
+            throw new InvalidOperationException("The post has already been removed");
+        }
+        if (!_author.Equals(username, StringComparison.CurrentCultureIgnoreCase))
+        {
+            throw new InvalidOperationException("You cannot delete a post which was created by another user");
+        }
+
+        RaiseEvent(new PostRemovedEvent() { Id = _id });
+    }
+
+    public void Apply(PostRemovedEvent @event)
+    {
+        _id = @event.Id;
+        _active = false;
+    }
 }
