@@ -4,7 +4,6 @@ using CQRS.Core.Exceptions;
 using CQRS.Core.Infrastructure;
 using CQRS.Core.Producers;
 using Post.Cmd.Domain.Aggregates;
-using System.Collections.Concurrent;
 
 namespace Post.Cmd.Infrastructure.Stores;
 
