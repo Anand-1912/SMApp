@@ -47,15 +47,17 @@ public class EventStore : IEventStore
 
         var version = expectedVersion;
         foreach(var @event in events)
-        {            
+        {
+            version++;
+            @event.Version = version;
+            var eventType = @event.GetType().Name;
             await _eventStoreRepository.SaveAsync(new EventModel()
-            {
-                Id = Guid.NewGuid().ToString(),
+            {              
                 TimeStamp = DateTime.Now,
                 AggregateIdentifier = aggregateId,
                 AggregateType = nameof(PostAggregate),
-                Version = ++version,
-                EventType = @event.GetType().Name,
+                Version = version,
+                EventType = eventType,
                 EventData = @event
             });
 
