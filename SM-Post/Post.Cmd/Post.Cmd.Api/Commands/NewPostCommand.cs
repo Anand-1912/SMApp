@@ -1,4 +1,4 @@
-﻿namespace Post.Query.Api.Commands;
+﻿namespace Post.Cmd.Api.Commands;
 
 using CQRS.Core.Commands;
 public class NewPostCommand: BaseCommand

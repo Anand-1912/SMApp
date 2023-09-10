@@ -2,7 +2,7 @@
 using CQRS.Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Post.Common.DTOs;
-using Post.Query.Api.Commands;
+using Post.Cmd.Api.Commands;
 
 namespace Post.Cmd.Api.Controllers;
 

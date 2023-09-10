@@ -1,6 +1,6 @@
 ﻿using CQRS.Core.Commands;
 
-namespace Post.Query.Api.Commands;
+namespace Post.Cmd.Api.Commands;
 public class RemoveCommentCommand : BaseCommand
 {
     public Guid CommentId { get; set; }

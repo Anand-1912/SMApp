@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Post.Cmd.Api.DTOs;
 using Post.Common.DTOs;
-using Post.Query.Api.Commands;
+using Post.Cmd.Api.Commands;
 
 namespace Post.Cmd.Api.Controllers;
 

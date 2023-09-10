@@ -1,7 +1,4 @@
-﻿using Post.Query.Api.Commands;
-
-namespace Post.Cmd.Api.Commands;
-
+﻿namespace Post.Cmd.Api.Commands;
 public interface ICommandHandler
 {
     Task HandleAsync(NewPostCommand command);

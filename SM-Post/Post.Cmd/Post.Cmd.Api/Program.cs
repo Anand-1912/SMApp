@@ -14,7 +14,6 @@ using Post.Cmd.Infrastructure.Infrastructure;
 using Post.Cmd.Infrastructure.Repository;
 using Post.Cmd.Infrastructure.Stores;
 using Post.Common.Events;
-using Post.Query.Api.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 BsonClassMap.RegisterClassMap<BaseEvent>();
