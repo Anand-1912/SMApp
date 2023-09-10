@@ -2,6 +2,7 @@
 using CQRS.Core.Events;
 using CQRS.Core.Exceptions;
 using CQRS.Core.Infrastructure;
+using CQRS.Core.Producers;
 using Post.Cmd.Domain.Aggregates;
 using System.Collections.Concurrent;
 
@@ -18,10 +19,12 @@ handled using Optimisic Concurrency Control
 public class EventStore : IEventStore
 {
     private readonly IEventStoreRepository _eventStoreRepository;
+    private readonly IEventProducer _eventProducer;
 
-    public EventStore(IEventStoreRepository eventStoreRepository)
+    public EventStore(IEventStoreRepository eventStoreRepository, IEventProducer eventProducer)
     {
         _eventStoreRepository = eventStoreRepository;
+        _eventProducer = eventProducer;
     }
     public async Task<List<BaseEvent>> GetEventsAsync(Guid aggregateId)
     {
@@ -56,6 +59,9 @@ public class EventStore : IEventStore
                 EventType = @event.GetType().Name,
                 EventData = @event
             });
+
+            var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
+            await _eventProducer.ProduceAsync(topic = null!, @event);
         }
 
     }
